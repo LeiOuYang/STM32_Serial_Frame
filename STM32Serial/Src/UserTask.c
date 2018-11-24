@@ -113,12 +113,14 @@ static void usart1_send_task(void const* arg)
 	LoopQueue* sendQueue;
 	unsigned int i = 0;
 	char send_buff[200];
+	TickType_t old_time = 0;
+	old_time = xTaskGetTickCount();
 	
 	while(1)
 	{
 		osDelay(10);	
 		
-		if(huart1.gState == HAL_UART_STATE_BUSY_TX) continue;
+		while(huart1.gState==HAL_UART_STATE_BUSY_TX && xTaskGetTickCount()-old_time<=3);
 		
 		sendQueue = getUsartSendLoopQueue(USART1_ID); /* get send queue */
 		if(sendQueue!=NULL)
@@ -177,12 +179,14 @@ static void usart2_send_task(void const* arg)
 	LoopQueue* sendQueue;
 	unsigned int i = 0;
 	char send_buff[160];
+	TickType_t old_time = 0;
+	old_time = xTaskGetTickCount();
 	
 	while(1)
 	{
 		osDelay(10);	
 		
-		if(huart2.gState == HAL_UART_STATE_BUSY_TX) continue;
+		while(huart2.gState==HAL_UART_STATE_BUSY_TX && xTaskGetTickCount()-old_time<=3);
 			
 		sendQueue = getUsartSendLoopQueue(USART2_ID); /* get send queue */
 		if(sendQueue!=NULL)
@@ -217,6 +221,7 @@ static void usart3_receive_task(void const* arg)
 		osDelay(10);
 		
 		restart_usart(&huart3);
+		
 		data_len = readBuffLen(USART3_ID); /* 读取串口1缓冲队列中的数据长度 */
 		if(data_len>0)
 		{
@@ -239,12 +244,14 @@ static void usart3_send_task(void const* arg)
 	uint16_t data_len = 0;
 	LoopQueue* sendQueue;
 	char send_buff[160];
+	TickType_t old_time = 0;
+	old_time = xTaskGetTickCount();
 	
 	while(1)
 	{
 		osDelay(10);	
 		
-		if(huart3.gState == HAL_UART_STATE_BUSY_TX) continue;		
+		while( huart3.gState==HAL_UART_STATE_BUSY_TX  && xTaskGetTickCount()-old_time<=3 );	
 		
 		sendQueue = getUsartSendLoopQueue(USART3_ID); /* get send queue */
 		if(sendQueue!=NULL)
