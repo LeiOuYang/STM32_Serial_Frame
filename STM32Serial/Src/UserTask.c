@@ -86,7 +86,7 @@ static void usart1_receive_task(void const* arg)
 	while(1)
 	{
 		/* 10ms 115200全速模式下为144个字节	*/
-		osDelay(10);
+		osDelay(8);
 		
 		restart_usart(&huart1);
 		
@@ -153,7 +153,7 @@ static void usart2_receive_task(void const* arg)
 	while(1)
 	{
 		/* 10ms 115200全速模式下为144个字节	*/
-		osDelay(10);
+		osDelay(8);
 		
 		restart_usart(&huart2);
 		data_len = readBuffLen(USART2_ID); /* 读取串口1缓冲队列中的数据长度 */
@@ -218,7 +218,7 @@ static void usart3_receive_task(void const* arg)
 	while(1)
 	{
 		/* 10ms 115200全速模式下为144个字节	*/
-		osDelay(10);
+		osDelay(8);
 		
 		restart_usart(&huart3);
 		
